@@ -60,6 +60,5 @@ func initCategoryApi(db *sql.DB) api.CategoryApi {
 	categoryRepo := repository.NewCategoryRepositoryDb(db)
 	categoryService := service.NewCategoryService(categoryRepo)
 	categoryApi := api.NewApi(categoryService)
-
 	return categoryApi
 }
