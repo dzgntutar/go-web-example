@@ -18,22 +18,7 @@ func NewCategoryRepositoryDb(db *sql.DB) *CategoryRepository {
 	}
 }
 
-func (repository CategoryRepository) Insert(category model.Category) {
-	stmt, err := repository.db.Prepare("insert into category(title,description) values($1,$2)")
-
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		result, err := stmt.Exec(category.Title, category.Description)
-		if err != nil {
-			fmt.Println(err)
-		} else {
-			fmt.Println(result.RowsAffected())
-		}
-	}
-}
-
-func (repository CategoryRepository) Get() []model.Category {
+func (repository CategoryRepository) All() ([]model.Category, error) {
 
 	var category model.Category
 	var categorylist []model.Category
@@ -41,7 +26,7 @@ func (repository CategoryRepository) Get() []model.Category {
 	rows, err := repository.db.Query("select id,title,description from category")
 
 	if err != nil {
-		return categorylist
+		return categorylist, err
 	} else {
 		for rows.Next() {
 			err := rows.Scan(&category.Id, &category.Title, &category.Description)
@@ -55,25 +40,40 @@ func (repository CategoryRepository) Get() []model.Category {
 			rows.Close()
 		}
 
-		return categorylist
+		return categorylist, nil
 	}
 }
 
-func (repository CategoryRepository) GetById(id int32) *model.Category {
-	stmp, err := repository.db.Prepare("select id, title , description from category where id = $1")
+// func (repository CategoryRepository) Insert(category model.Category) {
+// 	stmt, err := repository.db.Prepare("insert into category(title,description) values($1,$2)")
 
-	if err != nil {
-		fmt.Println(err)
-		return nil
-	} else {
-		var category model.Category
-		err := stmp.QueryRow(id).Scan(&category.Id, &category.Title, &category.Description)
-		if err != nil {
-			fmt.Println(err)
-			return nil
-		} else {
-			return &category
-		}
+// 	if err != nil {
+// 		fmt.Println(err)
+// 	} else {
+// 		result, err := stmt.Exec(category.Title, category.Description)
+// 		if err != nil {
+// 			fmt.Println(err)
+// 		} else {
+// 			fmt.Println(result.RowsAffected())
+// 		}
+// 	}
+// }
 
-	}
-}
+// func (repository CategoryRepository) GetById(id int32) *model.Category {
+// 	stmp, err := repository.db.Prepare("select id, title , description from category where id = $1")
+
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		return nil
+// 	} else {
+// 		var category model.Category
+// 		err := stmp.QueryRow(id).Scan(&category.Id, &category.Title, &category.Description)
+// 		if err != nil {
+// 			fmt.Println(err)
+// 			return nil
+// 		} else {
+// 			return &category
+// 		}
+
+// 	}
+// }
