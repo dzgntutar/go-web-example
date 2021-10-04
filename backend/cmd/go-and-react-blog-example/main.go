@@ -4,30 +4,34 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/model"
 	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/repository"
 	_ "github.com/lib/pq"
 )
 
 var (
-	db      *sql.DB
+	dbPstgr *sql.DB
 	dbError error
 )
 
 func main() {
 
-	var host, port, user, password, dbName = "localhost", "5432", "postgres", "ecetutar", "my-blog"
+	var host, port, user, password, dbName = "localhost", "5432", "postgres", "Password1*", "my-db"
 
 	dbInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbName)
 
-	db, dbError = sql.Open("postgres", dbInfo)
+	dbPstgr, dbError = sql.Open("postgres", dbInfo)
 
 	if dbError != nil {
 		panic(dbError)
 	}
 
-	categoryRepository := repository.SetCategoryRepositoryDb(db)
+	categoryRepo := repository.NewCategoryRepositoryDb(dbPstgr)
+	//categoryRepo := repository.CategoryRepository{Db: dbPstgr}
 
-	var result = categoryRepository.Get()
+	categoryRepo.Insert(model.Category{Title: "C sharp", Description: "c sharp dili"})
+
+	var result = categoryRepo.Get()
 	fmt.Println(result)
 
 }

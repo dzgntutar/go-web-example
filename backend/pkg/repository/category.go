@@ -9,9 +9,10 @@ import (
 
 type CategoryRepository struct {
 	db *sql.DB
+	//Db *sql.DB
 }
 
-func SetCategoryRepositoryDb(db *sql.DB) *CategoryRepository {
+func NewCategoryRepositoryDb(db *sql.DB) *CategoryRepository {
 	return &CategoryRepository{
 		db: db,
 	}
