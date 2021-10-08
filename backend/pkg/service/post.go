@@ -15,6 +15,7 @@ func NewPostService(repository *repository.PostRepository) PostService {
 	}
 }
 
-func (s PostService) All() ([]model.Post, error) {
-	return s.repository.All()
+func (s PostService) GetAllPost() ([]model.Post, error) {
+	return s.repository.GetAllPost()
+
 }

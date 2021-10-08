@@ -12,19 +12,19 @@ type PostApi struct {
 }
 
 func NewPostApi(service service.PostService) PostApi {
-	return PostApi{}
+	return PostApi{
+		service: service,
+	}
 }
 
-func (p PostApi) All() http.HandlerFunc {
+func (p PostApi) GetAllPost() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-
-		posts, err := p.service.All()
+		posts, err := p.service.GetAllPost()
 		if err != nil {
 			model.RespWithError(w, http.StatusNotFound, err.Error())
 			return
 		}
 
 		model.RespWithJSON(w, http.StatusOK, posts)
-
 	}
 }

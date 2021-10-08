@@ -48,10 +48,10 @@ func (app *App) Initialize(host, port, user, password, dbName string) {
 
 func (app *App) routes() {
 	categoryApi := initCategoryApi(app.Db)
-	app.Router.HandleFunc("/category", categoryApi.GetAllCategory()).Methods("GET")
+	go app.Router.HandleFunc("/category", categoryApi.GetAllCategory()).Methods("GET")
 
 	postApi := initPostApi(app.Db)
-	app.Router.HandleFunc("/post", postApi.All()).Methods("GET")
+	go app.Router.HandleFunc("/post", postApi.GetAllPost()).Methods("GET")
 }
 
 func (app *App) Run(port string) {
