@@ -11,6 +11,12 @@ type PostRepository struct {
 	db *sql.DB
 }
 
+func NewPostRepository(db *sql.DB) *PostRepository {
+	return &PostRepository{
+		db: db,
+	}
+}
+
 func (repository PostRepository) All() ([]model.Post, error) {
 
 	var post model.Post

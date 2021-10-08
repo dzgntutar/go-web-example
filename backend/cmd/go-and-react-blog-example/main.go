@@ -48,7 +48,10 @@ func (app *App) Initialize(host, port, user, password, dbName string) {
 
 func (app *App) routes() {
 	categoryApi := initCategoryApi(app.Db)
-	app.Router.HandleFunc("/category", categoryApi.All()).Methods("GET")
+	app.Router.HandleFunc("/category", categoryApi.GetAllCategory()).Methods("GET")
+
+	postApi := initPostApi(app.Db)
+	app.Router.HandleFunc("/post", postApi.All()).Methods("GET")
 }
 
 func (app *App) Run(port string) {
@@ -57,8 +60,15 @@ func (app *App) Run(port string) {
 }
 
 func initCategoryApi(db *sql.DB) api.CategoryApi {
-	categoryRepo := repository.NewCategoryRepositoryDb(db)
+	categoryRepo := repository.NewCategoryRepository(db)
 	categoryService := service.NewCategoryService(categoryRepo)
-	categoryApi := api.NewApi(categoryService)
+	categoryApi := api.NewCategoryApi(categoryService)
 	return categoryApi
+}
+
+func initPostApi(db *sql.DB) api.PostApi {
+	postRepo := repository.NewPostRepository(db)
+	postService := service.NewPostService(postRepo)
+	postApi := api.NewPostApi(postService)
+	return postApi
 }

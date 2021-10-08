@@ -4,24 +4,27 @@ import (
 	"net/http"
 
 	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/model"
-	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/service"
 )
 
 type CategoryApi struct {
-	CategoryService service.CategoryService
+	service CagoryService
 }
 
-func NewApi(s service.CategoryService) CategoryApi {
+type CagoryService interface {
+	GetAllCategory() ([]model.Category, error)
+}
+
+func NewCategoryApi(s CagoryService) CategoryApi {
 	return CategoryApi{
-		CategoryService: s,
+		service: s,
 	}
 }
 
 // FindAllCategories ...
-func (c CategoryApi) All() http.HandlerFunc {
+func (c CategoryApi) GetAllCategory() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		categories, err := c.CategoryService.All()
+		categories, err := c.service.GetAllCategory()
 		if err != nil {
 			model.RespWithError(w, http.StatusNotFound, err.Error())
 			return

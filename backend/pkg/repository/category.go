@@ -9,16 +9,15 @@ import (
 
 type CategoryRepository struct {
 	db *sql.DB
-	//Db *sql.DB
 }
 
-func NewCategoryRepositoryDb(db *sql.DB) *CategoryRepository {
+func NewCategoryRepository(db *sql.DB) *CategoryRepository {
 	return &CategoryRepository{
 		db: db,
 	}
 }
 
-func (repository CategoryRepository) All() ([]model.Category, error) {
+func (repository CategoryRepository) GetAllCategory() ([]model.Category, error) {
 
 	var category model.Category
 	var categorylist []model.Category

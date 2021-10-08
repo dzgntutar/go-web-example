@@ -9,6 +9,12 @@ type PostService struct {
 	repository *repository.PostRepository
 }
 
+func NewPostService(repository *repository.PostRepository) PostService {
+	return PostService{
+		repository: repository,
+	}
+}
+
 func (s PostService) All() ([]model.Post, error) {
 	return s.repository.All()
 }

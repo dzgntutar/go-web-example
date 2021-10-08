@@ -2,19 +2,22 @@ package service
 
 import (
 	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/model"
-	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/repository"
 )
 
 type CategoryService struct {
-	repository *repository.CategoryRepository
+	repository CategoryRepo
 }
 
-func NewCategoryService(repo *repository.CategoryRepository) CategoryService {
+type CategoryRepo interface {
+	GetAllCategory() ([]model.Category, error)
+}
+
+func NewCategoryService(repo CategoryRepo) CategoryService {
 	return CategoryService{
 		repository: repo,
 	}
 }
 
-func (c CategoryService) All() ([]model.Category, error) {
-	return c.repository.All()
+func (c CategoryService) GetAllCategory() ([]model.Category, error) {
+	return c.repository.GetAllCategory()
 }
