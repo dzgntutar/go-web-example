@@ -4,15 +4,15 @@ import (
 	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/model"
 )
 
-type PostRepo interface {
+type IPostRepository interface {
 	GetAllPost() ([]model.Post, error)
 }
 
 type PostService struct {
-	repository PostRepo
+	repository IPostRepository
 }
 
-func NewPostService(repository PostRepo) PostService {
+func NewPostService(repository IPostRepository) PostService {
 	return PostService{
 		repository: repository,
 	}

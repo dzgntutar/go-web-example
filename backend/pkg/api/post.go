@@ -4,14 +4,17 @@ import (
 	"net/http"
 
 	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/model"
-	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/service"
 )
 
-type PostApi struct {
-	service service.PostService
+type IPostService interface {
+	GetAllPost() ([]model.Post, error)
 }
 
-func NewPostApi(service service.PostService) PostApi {
+type PostApi struct {
+	service IPostService
+}
+
+func NewPostApi(service IPostService) PostApi {
 	return PostApi{
 		service: service,
 	}
