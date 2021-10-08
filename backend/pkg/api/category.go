@@ -6,15 +6,15 @@ import (
 	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/model"
 )
 
-type CategoryApi struct {
-	service CagoryService
-}
-
-type CagoryService interface {
+type ICagoryService interface {
 	GetAllCategory() ([]model.Category, error)
 }
 
-func NewCategoryApi(s CagoryService) CategoryApi {
+type CategoryApi struct {
+	service ICagoryService
+}
+
+func NewCategoryApi(s ICagoryService) CategoryApi {
 	return CategoryApi{
 		service: s,
 	}
