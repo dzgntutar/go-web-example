@@ -2,14 +2,17 @@ package service
 
 import (
 	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/model"
-	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/repository"
 )
 
-type PostService struct {
-	repository *repository.PostRepository
+type PostRepo interface {
+	GetAllPost() ([]model.Post, error)
 }
 
-func NewPostService(repository *repository.PostRepository) PostService {
+type PostService struct {
+	repository PostRepo
+}
+
+func NewPostService(repository PostRepo) PostService {
 	return PostService{
 		repository: repository,
 	}
@@ -17,5 +20,4 @@ func NewPostService(repository *repository.PostRepository) PostService {
 
 func (s PostService) GetAllPost() ([]model.Post, error) {
 	return s.repository.GetAllPost()
-
 }
