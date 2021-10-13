@@ -22,22 +22,22 @@ func (repository CategoryRepository) GetAllCategory() ([]model.Category, error) 
 	var category model.Category
 	var categorylist []model.Category
 
-	rows, err := repository.db.Query("select id,title,description from category")
+	rows, err := repository.db.Query("select id,title,description,createdate,updatedate from category")
 
 	if err != nil {
 		return categorylist, err
 	} else {
 		for rows.Next() {
-			err := rows.Scan(&category.Id, &category.Title, &category.Description)
+			err := rows.Scan(&category.Id, &category.Title, &category.Description, &category.CreateDate, &category.UpdateDate)
 
 			if err != nil {
 				fmt.Println(err)
 			} else {
 				categorylist = append(categorylist, category)
 			}
-
-			rows.Close()
 		}
+
+		rows.Close()
 
 		return categorylist, nil
 	}
@@ -45,12 +45,12 @@ func (repository CategoryRepository) GetAllCategory() ([]model.Category, error) 
 
 func (repository CategoryRepository) InsertCategory(category model.Category) {
 
-	stmt, err := repository.db.Prepare("insert into category(title,description) values($1,$2)")
+	stmt, err := repository.db.Prepare("insert into category(title,description,createdate,updatedate) values($1,$2,$3,$4)")
 
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		result, err := stmt.Exec(category.Title, category.Description)
+		result, err := stmt.Exec(category.Title, category.Description, category.CreateDate, category.UpdateDate)
 		if err != nil {
 			fmt.Println(err)
 		} else {

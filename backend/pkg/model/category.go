@@ -21,7 +21,7 @@ func (c CategoryDto) ToCategory() Category {
 		Id:          c.Id,
 		Title:       c.Title,
 		Description: c.Description,
-		CreateDate:  time.Time{},
-		UpdateDate:  time.Time{},
+		CreateDate:  time.Now(),
+		UpdateDate:  time.Now(),
 	}
 }
