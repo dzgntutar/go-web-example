@@ -6,5 +6,5 @@ CREATE TABLE post (
 	updatedate timestamp NULL,
 	isshare bool NULL,
 	isactive bool NULL,
-	categoryid int64 NULL,
+	categoryid int NULL
 );

@@ -6,6 +6,7 @@ import (
 
 type ICategoryRepository interface {
 	GetAllCategory() ([]model.Category, error)
+	InsertCategory(category model.Category)
 }
 
 type CategoryService struct {
@@ -20,4 +21,8 @@ func NewCategoryService(repo ICategoryRepository) CategoryService {
 
 func (c CategoryService) GetAllCategory() ([]model.Category, error) {
 	return c.repository.GetAllCategory()
+}
+
+func (c CategoryService) InsertCategory(categoryDto model.CategoryDto) {
+	c.repository.InsertCategory(categoryDto.ToCategory())
 }

@@ -43,20 +43,21 @@ func (repository CategoryRepository) GetAllCategory() ([]model.Category, error) 
 	}
 }
 
-// func (repository CategoryRepository) Insert(category model.Category) {
-// 	stmt, err := repository.db.Prepare("insert into category(title,description) values($1,$2)")
+func (repository CategoryRepository) InsertCategory(category model.Category) {
 
-// 	if err != nil {
-// 		fmt.Println(err)
-// 	} else {
-// 		result, err := stmt.Exec(category.Title, category.Description)
-// 		if err != nil {
-// 			fmt.Println(err)
-// 		} else {
-// 			fmt.Println(result.RowsAffected())
-// 		}
-// 	}
-// }
+	stmt, err := repository.db.Prepare("insert into category(title,description) values($1,$2)")
+
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		result, err := stmt.Exec(category.Title, category.Description)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println(result.RowsAffected())
+		}
+	}
+}
 
 // func (repository CategoryRepository) GetById(id int32) *model.Category {
 // 	stmp, err := repository.db.Prepare("select id, title , description from category where id = $1")
