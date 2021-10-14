@@ -3,13 +3,16 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/model"
+	"github.com/gorilla/mux"
 )
 
 type ICagoryService interface {
 	GetAllCategory() ([]model.Category, error)
-	InsertCategory(categoryDto model.CategoryDto)
+	InsertCategory(categoryDto model.CategoryDto) (model.Category, error)
+	GetById(id int32) *model.Category
 }
 
 type CategoryApi struct {
@@ -46,7 +49,29 @@ func (c CategoryApi) Insert() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		c.service.InsertCategory(categoryDto)
-		model.RespWithJSON(w, http.StatusOK, "Create is successful")
+		category, err := c.service.InsertCategory(categoryDto)
+		if err != nil {
+			model.RespWithError(w, 400, "Error")
+		}
+		model.RespWithJSON(w, http.StatusOK, category)
+	}
+}
+
+func (c CategoryApi) GetById() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		params := mux.Vars(r)
+		id := params["id"]
+		idInt, err := strconv.Atoi(id)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		category := c.service.GetById(int32(idInt))
+		//fmt.Println("Category", category)
+		if category == nil {
+			model.RespWithError(w, http.StatusBadRequest, "Bad Request")
+			return
+		}
+		model.RespWithJSON(w, http.StatusOK, category)
 	}
 }

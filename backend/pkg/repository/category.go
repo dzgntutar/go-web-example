@@ -43,37 +43,45 @@ func (repository CategoryRepository) GetAllCategory() ([]model.Category, error) 
 	}
 }
 
-func (repository CategoryRepository) InsertCategory(category model.Category) {
+func (repository CategoryRepository) InsertCategory(category model.Category) (model.Category, error) {
 
 	stmt, err := repository.db.Prepare("insert into category(title,description,createdate,updatedate) values($1,$2,$3,$4)")
 
 	if err != nil {
-		fmt.Println(err)
+		return category, err
 	} else {
 		result, err := stmt.Exec(category.Title, category.Description, category.CreateDate, category.UpdateDate)
+		defer stmt.Close()
+
 		if err != nil {
-			fmt.Println(err)
+			return category, err
 		} else {
-			fmt.Println(result.RowsAffected())
+			lastInserted, err := result.LastInsertId()
+			if err != nil {
+				fmt.Println(err)
+			}
+			//LastInsertId() not work in postgsql
+			category.Id = lastInserted
+			return category, nil
 		}
 	}
 }
 
-// func (repository CategoryRepository) GetById(id int32) *model.Category {
-// 	stmp, err := repository.db.Prepare("select id, title , description from category where id = $1")
+func (repository CategoryRepository) GetById(id int32) *model.Category {
+	fmt.Println("id:", id)
+	stmp, err := repository.db.Prepare("select id,title,description,createdate,updatedate from category where id = $1")
 
-// 	if err != nil {
-// 		fmt.Println(err)
-// 		return nil
-// 	} else {
-// 		var category model.Category
-// 		err := stmp.QueryRow(id).Scan(&category.Id, &category.Title, &category.Description)
-// 		if err != nil {
-// 			fmt.Println(err)
-// 			return nil
-// 		} else {
-// 			return &category
-// 		}
-
-// 	}
-// }
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	} else {
+		var category model.Category
+		err := stmp.QueryRow(id).Scan(&category.Id, &category.Title, &category.Description, &category.CreateDate, &category.UpdateDate)
+		if err != nil {
+			fmt.Println(err)
+			return nil
+		} else {
+			return &category
+		}
+	}
+}
