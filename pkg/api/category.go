@@ -10,8 +10,8 @@ import (
 )
 
 type ICagoryService interface {
-	GetAllCategory() ([]model.Category, error)
-	InsertCategory(categoryDto model.CategoryDto) (model.Category, error)
+	GetAll() ([]model.Category, error)
+	Insert(categoryDto model.CategoryDto) (model.Category, error)
 	GetById(id int32) *model.Category
 }
 
@@ -29,7 +29,7 @@ func NewCategoryApi(s ICagoryService) CategoryApi {
 func (c CategoryApi) GetAll() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		categories, err := c.service.GetAllCategory()
+		categories, err := c.service.GetAll()
 		if err != nil {
 			model.RespWithError(w, http.StatusNotFound, err.Error())
 			return
@@ -49,7 +49,7 @@ func (c CategoryApi) Insert() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		category, err := c.service.InsertCategory(categoryDto)
+		category, err := c.service.Insert(categoryDto)
 		if err != nil {
 			model.RespWithError(w, 400, "Error")
 		}

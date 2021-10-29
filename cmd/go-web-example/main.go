@@ -53,7 +53,8 @@ func (app *App) routes() {
 	app.Router.HandleFunc("/category/{id}", categoryApi.GetById()).Methods("GET")
 
 	postApi := initPostApi(app.Db)
-	app.Router.HandleFunc("/post", postApi.GetAllPost()).Methods("GET")
+	app.Router.HandleFunc("/post", postApi.GetAll()).Methods("GET")
+	app.Router.HandleFunc("/post", postApi.Insert()).Methods("POST")
 }
 
 func (app *App) Run(port string) {

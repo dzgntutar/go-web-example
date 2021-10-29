@@ -4,7 +4,7 @@ CREATE TABLE post (
 	body text NULL,
 	createdate timestamp NULL,
 	updatedate timestamp NULL,
-	isshare bool NULL,
-	isactive bool NULL,
-	categoryid int NULL
+	isshare boolean NULL,
+	isactive boolean NULL,
+	categoryid numeric NULL
 );

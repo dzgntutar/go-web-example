@@ -5,7 +5,8 @@ import (
 )
 
 type IPostRepository interface {
-	GetAllPost() ([]model.Post, error)
+	GetAll() ([]model.Post, error)
+	Insert(post model.Post) error
 }
 
 type PostService struct {
@@ -18,6 +19,10 @@ func NewPostService(repository IPostRepository) PostService {
 	}
 }
 
-func (s PostService) GetAllPost() ([]model.Post, error) {
-	return s.repository.GetAllPost()
+func (s PostService) GetAll() ([]model.Post, error) {
+	return s.repository.GetAll()
+}
+
+func (s PostService) Insert(postDto model.PostDto) error {
+	return s.repository.Insert(postDto.ToPost())
 }

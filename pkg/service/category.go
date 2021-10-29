@@ -5,8 +5,8 @@ import (
 )
 
 type ICategoryRepository interface {
-	GetAllCategory() ([]model.Category, error)
-	InsertCategory(category model.Category) (model.Category, error)
+	GetAll() ([]model.Category, error)
+	Insert(category model.Category) (model.Category, error)
 	GetById(id int32) *model.Category
 }
 
@@ -20,13 +20,13 @@ func NewCategoryService(repo ICategoryRepository) CategoryService {
 	}
 }
 
-func (c CategoryService) GetAllCategory() ([]model.Category, error) {
+func (c CategoryService) GetAll() ([]model.Category, error) {
 
-	return c.repository.GetAllCategory()
+	return c.repository.GetAll()
 }
 
-func (c CategoryService) InsertCategory(categoryDto model.CategoryDto) (model.Category, error) {
-	return c.repository.InsertCategory(categoryDto.ToCategory())
+func (c CategoryService) Insert(categoryDto model.CategoryDto) (model.Category, error) {
+	return c.repository.Insert(categoryDto.ToCategory())
 }
 
 func (c CategoryService) GetById(id int32) *model.Category {

@@ -17,7 +17,7 @@ func NewCategoryRepository(db *sql.DB) *CategoryRepository {
 	}
 }
 
-func (repository CategoryRepository) GetAllCategory() ([]model.Category, error) {
+func (repository CategoryRepository) GetAll() ([]model.Category, error) {
 
 	var category model.Category
 	var categorylist []model.Category
@@ -43,7 +43,7 @@ func (repository CategoryRepository) GetAllCategory() ([]model.Category, error) 
 	}
 }
 
-func (repository CategoryRepository) InsertCategory(category model.Category) (model.Category, error) {
+func (repository CategoryRepository) Insert(category model.Category) (model.Category, error) {
 
 	stmt, err := repository.db.Prepare("insert into category(title,description,createdate,updatedate) values($1,$2,$3,$4)")
 
