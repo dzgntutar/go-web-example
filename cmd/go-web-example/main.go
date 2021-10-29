@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/api"
-	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/repository"
-	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/service"
+	"github.com/dzqnTtr/go-web-example/pkg/api"
+	"github.com/dzqnTtr/go-web-example/pkg/repository"
+	"github.com/dzqnTtr/go-web-example/pkg/service"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 )

@@ -1,5 +1,3 @@
-github.com/dzqnTtr/go-and-react-blog-example/backend v0.0.0-20211014164413-b7a75e2241c9 h1:TZ85p6RhroBrO+5AkKjcTIfY8vASMTx9ed2RQQ10fOU=
-github.com/dzqnTtr/go-and-react-blog-example/backend v0.0.0-20211014164413-b7a75e2241c9/go.mod h1:nXskrlWJYBkp3AqCNgRQ/U82NGWn4I4ridlAuzogeWE=
 github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
 github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
 github.com/lib/pq v1.10.3 h1:v9QZf2Sn6AmjXtQeFpdoq/eaNtYP6IN+7lcrygsIAtg=

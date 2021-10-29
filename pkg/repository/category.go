@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/model"
+	"github.com/dzqnTtr/go-web-example/pkg/model"
 )
 
 type CategoryRepository struct {
@@ -60,7 +60,6 @@ func (repository CategoryRepository) InsertCategory(category model.Category) (mo
 			if err != nil {
 				fmt.Println(err)
 			}
-			//LastInsertId() not work in postgsql
 			category.Id = lastInserted
 			return category, nil
 		}

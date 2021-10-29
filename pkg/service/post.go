@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/dzqnTtr/go-and-react-blog-example/backend/pkg/model"
+	"github.com/dzqnTtr/go-web-example/pkg/model"
 )
 
 type IPostRepository interface {
