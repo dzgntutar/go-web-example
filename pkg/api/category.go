@@ -12,7 +12,7 @@ import (
 type ICagoryService interface {
 	GetAll() ([]model.Category, error)
 	Insert(categoryDto model.CategoryDto) (model.Category, error)
-	GetById(id int32) *model.Category
+	GetById(id int32) (*model.Category, error)
 }
 
 type CategoryApi struct {
@@ -66,9 +66,9 @@ func (c CategoryApi) GetById() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		category := c.service.GetById(int32(idInt))
+		category, err := c.service.GetById(int32(idInt))
 		//fmt.Println("Category", category)
-		if category == nil {
+		if err != nil {
 			model.RespWithError(w, http.StatusBadRequest, "Bad Request")
 			return
 		}

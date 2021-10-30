@@ -7,6 +7,7 @@ import (
 type IPostRepository interface {
 	GetAll() ([]model.Post, error)
 	Insert(post model.Post) error
+	GetById(id int32) (model.Post, error)
 }
 
 type PostService struct {
@@ -25,4 +26,10 @@ func (s PostService) GetAll() ([]model.Post, error) {
 
 func (s PostService) Insert(postDto model.PostDto) error {
 	return s.repository.Insert(postDto.ToPost())
+}
+
+func (s PostService) GetById(id int32) (model.PostDto, error) {
+	post, err := s.repository.GetById(id)
+
+	return post.ToPostDto(), err
 }

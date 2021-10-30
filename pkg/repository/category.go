@@ -66,21 +66,21 @@ func (repository CategoryRepository) Insert(category model.Category) (model.Cate
 	}
 }
 
-func (repository CategoryRepository) GetById(id int32) *model.Category {
+func (repository CategoryRepository) GetById(id int32) (*model.Category, error) {
 	fmt.Println("id:", id)
 	stmp, err := repository.db.Prepare("select id,title,description,createdate,updatedate from category where id = $1")
 
 	if err != nil {
 		fmt.Println(err)
-		return nil
+		return nil, err
 	} else {
 		var category model.Category
 		err := stmp.QueryRow(id).Scan(&category.Id, &category.Title, &category.Description, &category.CreateDate, &category.UpdateDate)
 		if err != nil {
 			fmt.Println(err)
-			return nil
+			return nil, err
 		} else {
-			return &category
+			return &category, nil
 		}
 	}
 }

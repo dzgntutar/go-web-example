@@ -7,7 +7,7 @@ import (
 type ICategoryRepository interface {
 	GetAll() ([]model.Category, error)
 	Insert(category model.Category) (model.Category, error)
-	GetById(id int32) *model.Category
+	GetById(id int32) (*model.Category, error)
 }
 
 type CategoryService struct {
@@ -29,6 +29,7 @@ func (c CategoryService) Insert(categoryDto model.CategoryDto) (model.Category, 
 	return c.repository.Insert(categoryDto.ToCategory())
 }
 
-func (c CategoryService) GetById(id int32) *model.Category {
+func (c CategoryService) GetById(id int32) (*model.Category, error) {
 	return c.repository.GetById(id)
+
 }

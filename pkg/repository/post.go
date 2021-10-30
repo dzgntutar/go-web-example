@@ -49,3 +49,22 @@ func (repository PostRepository) GetAll() ([]model.Post, error) {
 		return posts, nil
 	}
 }
+
+func (repository PostRepository) GetById(id int32) (model.Post, error) {
+	stmp, err := repository.db.Prepare("select id,title,body,createdate ,updatedate ,isshare ,isactive ,categoryid from post where id = $1")
+	var post model.Post
+	if err != nil {
+		fmt.Println(err)
+		return post, err
+	} else {
+		err := stmp.QueryRow(id).Scan(&post.Id, &post.Title, &post.Body, &post.CreateDate, &post.UpdateDate, &post.IsShare, &post.IsActive, &post.CategoryId)
+		defer stmp.Close()
+		if err != nil {
+			fmt.Println(err)
+			return post, err
+		} else {
+			fmt.Println(post)
+			return post, nil
+		}
+	}
+}

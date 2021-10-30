@@ -1,6 +1,8 @@
 package model
 
-import "time"
+import (
+	"time"
+)
 
 //post object
 type Post struct {
@@ -15,8 +17,11 @@ type Post struct {
 }
 
 type PostDto struct {
+	Id         int64
 	Title      string
 	Body       string
+	CreateDate time.Time
+	UpdateDate time.Time
 	CategoryId int64 `json:"CategoryId,string,omitempty"`
 }
 
@@ -29,5 +34,14 @@ func (postDto PostDto) ToPost() Post {
 		IsShare:    false,
 		IsActive:   true,
 		CategoryId: postDto.CategoryId,
+	}
+}
+func (post Post) ToPostDto() PostDto {
+	return PostDto{
+		Id:         post.Id,
+		Title:      post.Title,
+		Body:       post.Body,
+		CreateDate: post.CreateDate,
+		UpdateDate: post.UpdateDate,
 	}
 }

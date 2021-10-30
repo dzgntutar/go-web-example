@@ -4,13 +4,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/dzqnTtr/go-web-example/pkg/model"
+	"github.com/gorilla/mux"
 )
 
 type IPostService interface {
 	GetAll() ([]model.Post, error)
 	Insert(postDto model.PostDto) error
+	GetById(id int32) (model.PostDto, error)
 }
 
 type PostApi struct {
@@ -52,5 +55,23 @@ func (p PostApi) Insert() http.HandlerFunc {
 				model.RespWithError(w, 201, "Post Created")
 			}
 		}
+	}
+}
+
+func (p PostApi) GetById() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		params := mux.Vars(r)
+		id := params["id"]
+		idInt, err := strconv.Atoi(id)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		post, err := p.service.GetById(int32(idInt))
+		if err != nil {
+			model.RespWithError(w, http.StatusBadRequest, "Bad Request")
+			return
+		}
+		model.RespWithJSON(w, http.StatusOK, post)
 	}
 }
